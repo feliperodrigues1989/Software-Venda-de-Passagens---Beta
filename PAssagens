@@ -1,0 +1,161 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <conio2.h>
+
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
+int main()
+ {
+ 	system("color 1b");
+ 	setlocale(LC_ALL,"Portuguese");
+ 	int lugares[80], cont1, menu, soma, qtd, lugar, passvend, tlugares, cod;
+ 	float tgrana;
+ 	qtd = 0;
+ 	soma = 0;                                        // Declaração das variáveis utilizadas ao longo do programa
+ 	passvend = 0;
+ 	menu = 0;
+ 	tgrana = 0;
+ 	tlugares = 80;
+ 	cod=100;
+ 	
+   for (cont1=1; cont1<81; cont1++)    // Utilizamos um "for" para realizar a contagens das poltronas
+   {
+ 	   qtd++;
+       lugares[cont1] = qtd;
+     
+   }
+     while (menu!=5)                                  //  Menu com 5 escolhas, para o usuário poder efetuar todas as funções que o programa oferece
+     {
+     
+     	printf("\n\t\t---* MARMELADA AIRLINES *---");
+     	printf("\n\t\t|--------------------------|");
+     	printf("\n\t\t|-----------MENU-----------|");
+     	printf("\n\t\t|--- 1 - consulta ---------|");
+     	printf("\n\t\t|--- 2 - vender passagem --|");
+     	printf("\n\t\t|--- 3 - desfazer venda ---|");
+     	printf("\n\t\t|--- 4 - relatório --------|");
+     	printf("\n\t\t|--- 0 - sair -------------|");
+     	printf("\n\t\t----------------------------");
+     	printf("\n\t\tFaça a sua opção:      ");
+     	scanf("%d", &menu);
+     	  if (menu==0)
+		   {
+     	  	break;
+     	   }
+     	system("cls");       // Comando para limpar a tela
+     	
+     	switch (menu)
+		 {
+		 	case 1:          // caso o usuário escolha a opção 1, ele terá na tela todos os 80 lugares e suas atuais situações
+		 		
+		 	printf("\n\t\t\tDisponibilidade dos assentos\n\n");
+		 	
+			 for (cont1=1; cont1<81; cont1++)          // Este contador é para que seja apresentado na tela os assentos e seus respectivos status
+			 {
+		 			if (lugares[cont1]==0)                         // Se o assento já foi comprado ele receberá o valor de 0, em consequência, aparecerá na tela com a mensagem "ocupado"
+		 			{
+		 				textcolor(4);
+		 				printf("\t\t\t[%d - ocupado ] ",cont1);
+		 			}
+		 				
+					 else                                        // Porém se o assento estiver disponível para venda, a mensagem será "livre"
+					 {
+					 	
+				 		printf("\t\t\t[ %d - livre ]",cont1);
+					 }
+		 	
+		 		printf("\n");
+		 		if(cont1 % 4 == 0)
+					printf("\n");
+				if(cont1 == 80)
+					printf("\n");
+		 		
+		 	}
+		 	break;
+		 	
+			case 2:           // Caso o usuário escolha a opção 2, ele poderá realizar a compra de um assento, caso este esteja disponível para a venda
+			 	volta:
+			 	printf("\nValor da passagem R$ 211.38");
+			 	printf("\nDigite o assento desejado\n");             //  O usuário vai escolher a poltrona desejada 
+			 	scanf("%d", &lugar);
+			 	
+			 	if (lugar>0 && lugar<81)                 // Caso a poltrona esolhida esteja entre os 80 lugares que a aeronave possui,
+			 	{ 
+			 	     	
+			       if (lugares[lugar]==0)
+			       {                                       // o programa vai fazer a verificação se esta está livre ou não,
+			       	
+			   	      printf("\nLugar ocupado");
+			   	
+			       }else                                // caso a poltrona esteja ocupada a compra não será efetuada,
+			         {
+			   	          printf("\nCompra efetuada com sucesso!\n");
+			   	
+			   	          soma++;
+			 	    	  passvend++;                         // mas se a poltrona estiver disponível, o programa realizará a operação e contabilizará mais um lugar vendido, mais um valor unitário de passagem menos um lugar disponível e atribuirá ao assento escolhido o valor de 0,    
+			 		      tlugares--;                        // para que este seja apresentado como um lugar ocupado 
+			 		      lugares[lugar]= 0;                 // o programa também contabilizará um código a passagem
+			 		      cod++;
+					 	
+			 		      
+					      printf("\nSua poltrona é a de número:  %d\n",lugar);
+					      printf("\nO código de sua passagem é:  %d\n", cod);          // Ao usuário será informado todos os dados referentes a sua transação, tais como: número de poltrona, código e vôo, destino e horário da viagem, além de uma mensagem de agradecimento e votos de boa viagem 
+					      printf("\nSeu vôo é o de número:  171\n");
+					      printf("\nDestino: Ibiza, com saída prevista para as 13:00 hrs, do dia 07/06/14\n");
+				          printf("\nA Marmelada Airlines, agradece a preferência e deseja a você uma ótima viagem!\n\n"); 
+			         }
+			 	   	
+			 	}  
+				 else                 // Caso o assento escolhido não esteja dentro dos 80 lugares da aeronave, o programa retornará a mensagem que deve se escolher somente lugares de 1 à 80
+			 	   {
+			     	printf("\nSomente lugares de 1 a 80\n");
+			 		goto volta;
+			       }
+			    
+			break;
+			
+			case 3:                                        // Se a opção for a 3, então o usuário deseja desfazer a venda
+			
+			     printf("\nDigite sua poltrona\n");
+			     scanf("%d,", &lugar);
+			     
+			     	if (lugar>0 && lugar<81)
+			 	{                                               // Neste caso o usuário irá fornecer a poltrona na qual deseja que seja desfeita a venda e o programa irá realizar as operações inversas ao processo de compra, ou seja: 
+			 		soma--;                                     // o programa irá contabilizar menos um lugar vendido, menos um valor unitário de passagem, mais um lugar livre, além de atribuir o valor 1 ao lugar para que este deixe de aparecer como lugar ocupado 
+			 		passvend--;
+			 		tlugares++;
+			 		lugares[lugar]= 1;	
+			 		
+			 		printf("\nOperação realizada com sucesso!\n");
+			 		printf("\nA Marmelada Airlines deseja a você um bom dia!\n");        // Ao final da operação o usuário recebe a mensagem de operação bem sucedida e os votos de um bom dia 
+			 	
+			 	}
+			 	
+			break;    
+			
+			case 4:                                   // No caso de escolha da opção 4, o programa fornece ao usuário um relatório contendo, o valor unitário da passagem, o valor total vendido, a quantidade de assentos vendidos
+			                                                       // e a quantidade de assentos livres
+			printf("\nValor unitário das passagens: R$ 211.38");
+		  
+		 	 tgrana= soma * 211.38;
+			 printf("\nTotal de passagens vendias: %d", passvend);
+			 printf("\nValor total vendido em R$: R$ %.2f", tgrana);
+			 printf("\nLugares vagos: %d\n", tlugares);
+			 
+			 break;
+			
+		 }
+     	
+     
+   }
+   printf("\nObrigado por nos escolher, tenha uma ótima viagem!!!\n");                // Na escolha da opção 0 que é relativo ao sair do menu, o programa retorna ao usuário, uma mensagem de agradecimento e os votos de uma boa viagem
+   
+	return 0;
+	
+	
+	
+	
+	 // Alunos: Felipe Eduardo Rodrigues  R.A. = 0792/14-3
+	 //         William A. Bueno          R.A. = 0598/14-3
+}
